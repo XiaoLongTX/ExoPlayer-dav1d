@@ -67,6 +67,10 @@ include modulePrefix + 'library-decoder'
 project(modulePrefix + 'library-decoder').projectDir = new File(rootDir, 'library/decoder')
 include modulePrefix + 'extension-av1'
 project(modulePrefix + 'extension-av1').projectDir = new File(rootDir, 'extensions/av1')
+
+include modulePrefix + 'extension-dav1d'
+project(modulePrefix + 'extension-dav1d').projectDir = new File(rootDir, 'extensions/dav1d')
+
 include modulePrefix + 'extension-ffmpeg'
 project(modulePrefix + 'extension-ffmpeg').projectDir = new File(rootDir, 'extensions/ffmpeg')
 include modulePrefix + 'extension-flac'

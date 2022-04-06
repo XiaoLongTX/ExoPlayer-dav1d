@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.android.exoplayer2.ext.av1;
+package com.google.android.exoplayer2.ext.dav1d;
 
 import static com.google.android.exoplayer2.decoder.DecoderReuseEvaluation.REUSE_RESULT_YES_WITHOUT_RECONFIGURATION;
 
@@ -33,7 +33,7 @@ import com.google.android.exoplayer2.video.DecoderVideoRenderer;
 import com.google.android.exoplayer2.video.VideoRendererEventListener;
 
 /** Decodes and renders video using libgav1 decoder. */
-public class Libgav1VideoRenderer extends DecoderVideoRenderer {
+public class Libdav1dVideoRenderer extends DecoderVideoRenderer {
 
   /**
    * Attempts to use as many threads as performance processors available on the device. If the
@@ -75,7 +75,7 @@ public class Libgav1VideoRenderer extends DecoderVideoRenderer {
    * @param maxDroppedFramesToNotify The maximum number of frames that can be dropped between
    *     invocations of {@link VideoRendererEventListener#onDroppedFrames(int, long)}.
    */
-  public Libgav1VideoRenderer(
+  public Libdav1dVideoRenderer(
       long allowedJoiningTimeMs,
       @Nullable Handler eventHandler,
       @Nullable VideoRendererEventListener eventListener,
@@ -106,7 +106,7 @@ public class Libgav1VideoRenderer extends DecoderVideoRenderer {
    * @param numInputBuffers Number of input buffers.
    * @param numOutputBuffers Number of output buffers.
    */
-  public Libgav1VideoRenderer(
+  public Libdav1dVideoRenderer(
       long allowedJoiningTimeMs,
       @Nullable Handler eventHandler,
       @Nullable VideoRendererEventListener eventListener,

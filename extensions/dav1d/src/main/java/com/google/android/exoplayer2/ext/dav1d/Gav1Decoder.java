@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.android.exoplayer2.ext.av1;
+package com.google.android.exoplayer2.ext.dav1d;
 
 import static androidx.annotation.VisibleForTesting.PACKAGE_PRIVATE;
 import static java.lang.Runtime.getRuntime;
@@ -48,7 +48,7 @@ public final class Gav1Decoder
    * @param numOutputBuffers Number of output buffers.
    * @param initialInputBufferSize The initial size of each input buffer, in bytes.
    * @param threads Number of threads libgav1 will use to decode. If {@link
-   *     Libgav1VideoRenderer#THREAD_COUNT_AUTODETECT} is passed, then this class will auto detect
+   *     Libdav1dVideoRenderer#THREAD_COUNT_AUTODETECT} is passed, then this class will auto detect
    *     the number of threads to be used.
    * @throws Gav1DecoderException Thrown if an exception occurs when initializing the decoder.
    */
@@ -60,7 +60,7 @@ public final class Gav1Decoder
       throw new Gav1DecoderException("Failed to load decoder native library.");
     }
 
-    if (threads == Libgav1VideoRenderer.THREAD_COUNT_AUTODETECT) {
+    if (threads == Libdav1dVideoRenderer.THREAD_COUNT_AUTODETECT) {
       // Try to get the optimal number of threads from the AV1 heuristic.
       threads = gav1GetThreads();
       if (threads <= 0) {

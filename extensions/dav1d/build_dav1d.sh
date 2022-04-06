@@ -20,9 +20,9 @@ if [[ -z "${ARCH}" ]] ; then
   exit 1
 fi
 
-source ../../AVP/android-setup-light.sh
+JNI_PATH=src/main/jni
 
-LOCAL_PATH=$($READLINK -f .)
+cd $JNI_PATH
 
 ANDROID_API=21
 
@@ -118,6 +118,8 @@ echo "Building with Ninja"
 #cd ${dir_name}-${ABI}
 ninja -C  ../${dir_name}-${ABI}
 
+cd ../
+
 mkdir arm64-v8a
 
 mv build-arm64-v8a/src/libdav1d.so.6.6.0 arm64-v8a/libdav1d.so
@@ -125,5 +127,11 @@ mv build-arm64-v8a/src/libdav1d.so.6.6.0 arm64-v8a/libdav1d.so
 rm -rf build-arm64-v8a
 
 rm android_cross_arm64-v8a.txt
+
+mkdir include
+
+mv dav1d/include/dav1d/* include
+
+rm -rf dav1d
 
 echo "Done!"

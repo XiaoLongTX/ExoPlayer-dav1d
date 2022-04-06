@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.android.exoplayer2.ext.av1;
+package com.google.android.exoplayer2.ext.dav1d;
 
 import com.google.android.exoplayer2.ExoPlayerLibraryInfo;
 import com.google.android.exoplayer2.util.LibraryLoader;
@@ -26,7 +26,7 @@ public final class Gav1Library {
   }
 
   private static final LibraryLoader LOADER =
-      new LibraryLoader("gav1JNI") {
+      new LibraryLoader("dav1d_jni") {
         @Override
         protected void loadLibrary(String name) {
           System.loadLibrary(name);

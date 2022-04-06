@@ -19,9 +19,13 @@ android {
             cmake {
                 // Debug CMake build type causes video frames to drop,
                 // so native library should always use Release build type.
-                arguments "-DCMAKE_BUILD_TYPE=Release"
-                arguments "-DBUILD_TESTING=OFF"
-                targets "gav1JNI"
+                arguments "-DCMAKE_BUILD_TYPE=Release",
+                        "-DBUILD_TESTING=OFF",
+                        "-DANDROID_PLATFORM=android-24",
+                        "-DANDROID_TOOLCHAIN=clang",
+                        "-DANDROID_ARM_NEON=TRUE"
+                targets "dav1d_jni"
+                abiFilters "arm64-v8a"
             }
         }
     }
@@ -29,7 +33,7 @@ android {
 
 // Configure the native build only if libgav1 is present to avoid gradle sync
 // failures if libgav1 hasn't been built according to the README instructions.
-if (project.file('src/main/jni/libgav1').exists()) {
+if (project.file('src/main/jni/include').exists()) {
     android.externalNativeBuild.cmake {
         path = 'src/main/jni/CMakeLists.txt'
         version = '3.7.1+'

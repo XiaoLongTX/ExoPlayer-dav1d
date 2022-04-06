@@ -13,7 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@NonNullApi
-package com.google.android.exoplayer2.ext.av1;
+package com.google.android.exoplayer2.ext.dav1d;
 
-import com.google.android.exoplayer2.util.NonNullApi;
+import com.google.android.exoplayer2.decoder.DecoderException;
+
+/** Thrown when a libgav1 decoder error occurs. */
+public final class Gav1DecoderException extends DecoderException {
+
+  /* package */ Gav1DecoderException(String message) {
+    super(message);
+  }
+
+  /* package */ Gav1DecoderException(String message, Throwable cause) {
+    super(message, cause);
+  }
+}

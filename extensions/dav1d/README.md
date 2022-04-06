@@ -24,7 +24,7 @@ dependencies as follows:
 
 ```
 cd "<path to project checkout>"
-AV1_MODULE_PATH="$(pwd)/extensions/av1/src/main"
+AV1_MODULE_PATH="$(pwd)/extensions/dav1d"
 ```
 
 * Fetch cpu_features library:
