@@ -22,11 +22,11 @@ import com.google.android.exoplayer2.util.LibraryLoader;
 public final class Gav1Library {
 
   static {
-    ExoPlayerLibraryInfo.registerModule("goog.exo.gav1");
+    ExoPlayerLibraryInfo.registerModule("goog.exo.dav1d");
   }
 
   private static final LibraryLoader LOADER =
-      new LibraryLoader("dav1d_jni") {
+      new LibraryLoader("dav1d","dav1d_jni") {
         @Override
         protected void loadLibrary(String name) {
           System.loadLibrary(name);

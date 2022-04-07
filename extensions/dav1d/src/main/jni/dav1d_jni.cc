@@ -508,14 +508,16 @@ DECODER_FUNC(jint, gav1GetFrame, jlong jContext, jobject jOutputBuffer,
   Dav1dPicture pic = {0}, *p = &pic;
 
   context->avid_status_code = dav1d_get_picture(context->c_out, p);
-  if (context->avid_status_code != kJniStatusOk)
-  {
+  if (context->avid_status_code == DAV1D_ERR(EAGAIN)) {
+    LOGI("dav1d_get_picture EAGAIN");
+    return kStatusOk;
+  }
+  if (context->avid_status_code != kJniStatusOk) {
     LOGI("dav1d_get_picture %d", context->avid_status_code);
     return kStatusError;
   }
 
-  if (decodeOnly != 0)
-  {
+  if (decodeOnly != 0) {
     // This is not an error. The input data was decode-only or no displayable
     // frames are available.
     return kStatusDecodeOnly;
@@ -605,7 +607,6 @@ DECODER_FUNC(jint, gav1RenderFrame, jlong jContext, jobject jSurface,
   auto *const context = reinterpret_cast<JniContext *>(jContext);
   const int buffer_id =
       env->GetIntField(jOutputBuffer, context->decoder_private_field);
-
   JniFrameBuffer *const jni_buffer =
       context->buffer_manager.GetBuffer(buffer_id);
   if (!context->MaybeAcquireNativeWindow(env, jSurface))
@@ -630,12 +631,10 @@ DECODER_FUNC(jint, gav1RenderFrame, jlong jContext, jobject jSurface,
   ANativeWindow_Buffer native_window_buffer;
   if (ANativeWindow_lock(context->native_window, &native_window_buffer,
       /*inOutDirtyBounds=*/nullptr) ||
-      native_window_buffer.bits == nullptr)
-  {
+      native_window_buffer.bits == nullptr) {
     context->jni_status_code = kJniStatusANativeWindowError;
     return kStatusError;
   }
-
   // Y plane
   CopyPlane(jni_buffer->Plane(kPlaneY),
             jni_buffer->Stride(kPlaneY),
@@ -677,12 +676,10 @@ DECODER_FUNC(jint, gav1RenderFrame, jlong jContext, jobject jSurface,
             jni_buffer->DisplayedWidth(kPlaneU),
             std::min(native_window_buffer_uv_height, jni_buffer->DisplayedHeight(kPlaneU)));
 
-  if (ANativeWindow_unlockAndPost(context->native_window))
-  {
+  if (ANativeWindow_unlockAndPost(context->native_window)) {
     context->jni_status_code = kJniStatusANativeWindowError;
     return kStatusError;
   }
-
   return kStatusOk;
 }
 

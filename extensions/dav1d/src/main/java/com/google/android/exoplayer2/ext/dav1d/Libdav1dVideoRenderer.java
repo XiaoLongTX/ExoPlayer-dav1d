@@ -42,7 +42,7 @@ public class Libdav1dVideoRenderer extends DecoderVideoRenderer {
    */
   public static final int THREAD_COUNT_AUTODETECT = 0;
 
-  private static final String TAG = "Libgav1VideoRenderer";
+  private static final String TAG = "Libdav1dVideoRenderer";
   private static final int DEFAULT_NUM_OF_INPUT_BUFFERS = 4;
   private static final int DEFAULT_NUM_OF_OUTPUT_BUFFERS = 4;
   /**
@@ -141,7 +141,7 @@ public class Libdav1dVideoRenderer extends DecoderVideoRenderer {
   @Override
   protected Gav1Decoder createDecoder(Format format, @Nullable CryptoConfig cryptoConfig)
       throws Gav1DecoderException {
-    TraceUtil.beginSection("createGav1Decoder");
+    TraceUtil.beginSection("createDav1dDecoder");
     int initialInputBufferSize =
         format.maxInputSize != Format.NO_VALUE ? format.maxInputSize : DEFAULT_INPUT_BUFFER_SIZE;
     Gav1Decoder decoder =
