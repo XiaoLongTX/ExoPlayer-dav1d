@@ -1,6 +1,6 @@
 # ExoPlayer AV1 module
 
-The AV1 module provides `Libgav1VideoRenderer`, which uses libgav1 native
+The AV1 module provides `Libdav1dVideoRenderer`, which uses libdav1d native
 library to decode AV1 videos.
 
 ## License note
@@ -27,74 +27,40 @@ cd "<path to project checkout>"
 AV1_MODULE_PATH="$(pwd)/extensions/dav1d"
 ```
 
-* Fetch cpu_features library:
-
 ```
-cd "${AV1_MODULE_PATH}/jni" && \
-git clone https://github.com/google/cpu_features
+cd "${AV1_MODULE_PATH}" && \
+./build_dav1d.sh -a arm64
 ```
 
-* Fetch libgav1:
-
-```
-cd "${AV1_MODULE_PATH}/jni" && \
-git clone https://chromium.googlesource.com/codecs/libgav1
-```
-
-* Fetch Abseil:
-
-```
-cd "${AV1_MODULE_PATH}/jni/libgav1" && \
-git clone https://github.com/abseil/abseil-cpp.git third_party/abseil-cpp
-```
-
-* [Install CMake][].
-
-Having followed these steps, gradle will build the module automatically when run
-on the command line or via Android Studio, using [CMake][] and [Ninja][] to
-configure and build libgav1 and the module's [JNI wrapper library][].
-
-[top level README]: https://github.com/google/ExoPlayer/blob/release-v2/README.md
-[Install CMake]: https://developer.android.com/studio/projects/install-ndk
-[CMake]: https://cmake.org/
-[Ninja]: https://ninja-build.org
-[JNI wrapper library]: https://github.com/google/ExoPlayer/blob/release-v2/extensions/av1/src/main/jni/gav1_jni.cc
-
-## Build instructions (Windows)
-
-We do not provide support for building this module on Windows, however it should
-be possible to follow the Linux instructions in [Windows PowerShell][].
-
-[Windows PowerShell]: https://docs.microsoft.com/en-us/powershell/scripting/getting-started/getting-started-with-windows-powershell
 
 ## Using the module
 
 Once you've followed the instructions above to check out, build and depend on
-the module, the next step is to tell ExoPlayer to use `Libgav1VideoRenderer`.
+the module, the next step is to tell ExoPlayer to use `Libdav1dVideoRenderer`.
 How you do this depends on which player API you're using:
 
 *   If you're passing a `DefaultRenderersFactory` to `ExoPlayer.Builder`, you
     can enable using the module by setting the `extensionRendererMode` parameter
     of the `DefaultRenderersFactory` constructor to
-    `EXTENSION_RENDERER_MODE_ON`. This will use `Libgav1VideoRenderer` for
+    `EXTENSION_RENDERER_MODE_ON`. This will use `Libdav1dVideoRenderer` for
     playback if `MediaCodecVideoRenderer` doesn't support decoding the input AV1
-    stream. Pass `EXTENSION_RENDERER_MODE_PREFER` to give `Libgav1VideoRenderer`
+    stream. Pass `EXTENSION_RENDERER_MODE_PREFER` to give `Libdav1dVideoRenderer`
     priority over `MediaCodecVideoRenderer`.
 *   If you've subclassed `DefaultRenderersFactory`, add a
-    `Libvgav1VideoRenderer` to the output list in `buildVideoRenderers`.
+    `Libdav1dVideoRenderer` to the output list in `buildVideoRenderers`.
     ExoPlayer will use the first `Renderer` in the list that supports the input
     media format.
 *   If you've implemented your own `RenderersFactory`, return a
-    `Libgav1VideoRenderer` instance from `createRenderers`. ExoPlayer will use
+    `Libdav1dVideoRenderer` instance from `createRenderers`. ExoPlayer will use
     the first `Renderer` in the returned array that supports the input media
     format.
-*   If you're using `ExoPlayer.Builder`, pass a `Libgav1VideoRenderer` in the
+*   If you're using `ExoPlayer.Builder`, pass a `Libdav1dVideoRenderer` in the
     array of `Renderer`s. ExoPlayer will use the first `Renderer` in the list
     that supports the input media format.
 
 Note: These instructions assume you're using `DefaultTrackSelector`. If you have
 a custom track selector the choice of `Renderer` is up to your implementation.
-You need to make sure you are passing a `Libgav1VideoRenderer` to the player and
+You need to make sure you are passing a `Libdav1dVideoRenderer` to the player and
 then you need to implement your own logic to use the renderer for a given track.
 
 ## Using the module in the demo application
@@ -107,7 +73,7 @@ To try out playback using the module in the [demo application][], see
 
 ## Rendering options
 
-There are two possibilities for rendering the output `Libgav1VideoRenderer`
+There are two possibilities for rendering the output `Libdav1dVideoRenderer`
 gets from the libgav1 decoder:
 
 *   GL rendering using GL shader for color space conversion
@@ -115,7 +81,7 @@ gets from the libgav1 decoder:
     *   If you are using `ExoPlayer` with `StyledPlayerView`, enable this option
         by setting the `surface_type` of the view to be
         `video_decoder_gl_surface_view`.
-    *   Otherwise, enable this option by sending `Libgav1VideoRenderer` a
+    *   Otherwise, enable this option by sending `Libdav1dVideoRenderer` a
         message of type `Renderer.MSG_SET_VIDEO_OUTPUT` with an instance of
         `VideoDecoderOutputBufferRenderer` as its object.
         `VideoDecoderGLSurfaceView` is the concrete
@@ -126,7 +92,7 @@ gets from the libgav1 decoder:
 
     *   If you are using `ExoPlayer` with `StyledPlayerView`, this option is
         enabled by default.
-    *   Otherwise, enable this option by sending `Libgav1VideoRenderer` a
+    *   Otherwise, enable this option by sending `Libdav1dVideoRenderer` a
         message of type `Renderer.MSG_SET_VIDEO_OUTPUT` with an instance of
         `SurfaceView` as its object.
 
